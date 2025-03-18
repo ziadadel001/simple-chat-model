@@ -13,7 +13,11 @@ window.Echo = new Echo({
     enabledTransports: ['ws', 'wss'],
 });
 
+// Subscribe to the 'messages' channel using Laravel Echo
 window.Echo.channel('messages')
-                    .listen('MessageSent',(e)=>{
-                        console.log(e)
-                    })
+    // Listen for the 'MessageSent' event on this channel
+    .listen('MessageSent', (e) => {
+        // Log the event data to the console for debugging
+        console.log(e);
+    });
+
