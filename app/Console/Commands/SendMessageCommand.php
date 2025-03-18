@@ -28,15 +28,19 @@ class SendMessageCommand extends Command
      */
     public function handle()
     {
+        // Prompt user to enter their name
         $name = text(
-            label: '  what is your name ? ',
-            required: true
-        );
-        $text = text(
-            label: '  what is your message ? ',
-            required: true
+            label: 'What is your name?', // Display label for input
+            required: true // Make input mandatory
         );
 
+        // Prompt user to enter their message
+        $text = text(
+            label: 'What is your message?', // Display label for input
+            required: true // Make input mandatory
+        );
+
+        // Dispatch the MessageSent event with the name and message as parameters
         MessageSent::dispatch($name, $text);
     }
 }

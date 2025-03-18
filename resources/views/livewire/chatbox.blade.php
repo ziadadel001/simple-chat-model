@@ -1,29 +1,50 @@
 <?php
 use App\Events\MessageSent;
 use Livewire\Volt\Component;
-use Livewire\Attributes\On; // Add this import
+use Livewire\Attributes\On; // Import the On attribute for event listening
 
+// Define an anonymous Livewire Volt component
 new class extends Component
 {
     /**
-     * @var string[]
+     * @var string[] Stores chat messages
      */
     public array $messages = [];
+
+    /**
+     * @var string Stores the user's input message
+     */
     public string $message = '';
+
+    /**
+     * Dispatches the MessageSent event when a user sends a message.
+     * This will broadcast the message in real-time.
+     */
     public function addMessage()
     {
-        MessageSent::dispatch(auth()->user()->name, $this->message);
-        $this->reset('message');
+        // Ensure the user is authenticated before dispatching the event
+        if (auth()->check()) {
+            MessageSent::dispatch(auth()->user()->name, $this->message);
+            $this->reset('message'); // Clear the input field after sending
+        }
     }
- #[On('echo-private:messages,MessageSent')]
-     public function onMessageSent($event)
+
+    /**
+     * Listens for the "MessageSent" event on the "messages" private channel.
+     * When a message is broadcasted, it is added to the local messages array.
+     */
+    #[On('echo-private:messages,MessageSent')]
+    public function onMessageSent($event)
     {
+        // Debugging: Uncomment to check the received event data
         // dd($event);
 
-        $this->messages[]=$event;
-        }
+        // Append the new message event to the messages array
+        $this->messages[] = $event;
+    }
 }
 ?>
+
 
 <div x-data="{ open: true }" >
     <div :class="{'-translate-y-0': open, 'translate-y-full': !open}" class="fixed transition-all duration-300 transform bottom-10 right-12 h-60 w-80">
