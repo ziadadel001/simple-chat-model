@@ -43,22 +43,4 @@ This command will dispatch a message event, which will be received and displayed
 
 ---
 
-## JavaScript Code for Listening to Events
-
-Ensure the following JavaScript code is included to listen for incoming messages:
-
-```javascript
-// Subscribe to the 'messages' channel using Laravel Echo
-window.Echo.channel("messages")
-    // Listen for the 'MessageSent' event on this channel
-    .listen("MessageSent", (e) => {
-        // Log the event data to the console for debugging
-        console.log(e);
-    });
-```
-
-This will allow real-time updates in the chat interface whenever a new message is sent.
-
----
-
 With this setup, your real-time chat should work smoothly
